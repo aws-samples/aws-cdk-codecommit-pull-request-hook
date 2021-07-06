@@ -1,0 +1,22 @@
+version: "0.2"
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - pip install -r requirements.txt
+  build:
+    commands:
+     # Pylint the tests code itself
+      - find tests/ -name "*py" | xargs -I {} python -m pylint {} --disable=redefined-outer-name
+      - python -m pytest --capture=tee-sys --junitxml=report.xml --cov=.
+        --cov-report xml
+reports:
+  unit-test-reports:
+    files:
+      - report.xml
+    file-format: JUNITXML
+  unit-cov-reports:
+    files:
+      - coverage.xml
+    file-format: COBERTURAXML
