@@ -7,6 +7,9 @@
 5. [Tools and services](#tools-and-services)
 6. [Usage](#usage)
 7. [Clean up](#clean-up)
+8. [Reference](#reference)
+9. [Contributing](#security)
+10. [License](#license)
 
 ## Introduction
 This project provides an example of building Pull Request Hook on AWS CodeCommit. This project builds the necessary infrastructure to integrate automatic trigger of AWS CodeBuild when Pull Request request are raised in AWS CodeCommit and then links build results to Pull Request.
