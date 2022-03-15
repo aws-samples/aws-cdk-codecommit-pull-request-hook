@@ -1,7 +1,7 @@
-'''
+"""
 The AWS cdk stack looks for the available AWS CodeCommit repository in the AWS_DEFAULT_REGION 
 and then applies a AWS Code Build trigger using the spec buildspec-tests.json.
-'''
+"""
 from typing import Dict
 from aws_cdk import (
     core,
@@ -17,6 +17,8 @@ import boto3
 code_client = boto3.client("codecommit")
 
 import json
+
+
 class CICDPullRequestStack(core.Stack):
     def __init__(self, scope: core.Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -77,7 +79,9 @@ class CICDPullRequestStack(core.Stack):
         response = code_client.list_repositories()
         my_repos = [item["repositoryName"] for item in response["repositories"]]
         if not my_repos:
-            print("No repo found, please make sure if you are using correct AWS regsion. e.g export AWS_DEFAULT_REGION=eu-west-2; when codecommit repository exist in eu-west-2.")
+            print(
+                "No repo found, please make sure if you are using correct AWS regsion. e.g export AWS_DEFAULT_REGION=eu-west-2; when codecommit repository exist in eu-west-2."
+            )
             return
 
         for my_repo in my_repos:
@@ -90,11 +94,11 @@ class CICDPullRequestStack(core.Stack):
             project = codebuild.Project(
                 self,
                 f"{my_repo}_PullRequestTestAutomationProject",
-                build_spec=codebuild.BuildSpec.from_source_filename("buildspec-tests.yaml"),
+                build_spec=codebuild.BuildSpec.from_source_filename(
+                    "buildspec-tests.yaml"
+                ),
                 source=codebuild.Source.code_commit(repository=my_repository),
-                environment= {
-                    "build_image": codebuild.LinuxBuildImage.AMAZON_LINUX_2_3
-                }
+                environment={"build_image": codebuild.LinuxBuildImage.AMAZON_LINUX_2_3},
             )
 
             pull_request_rule = events.Rule(

@@ -7,7 +7,7 @@ codecommit_client = boto3.client("codecommit")
 
 
 def lambda_handler(event, context):
-    """ Lambda handler function """
+    """Lambda handler function"""
     print("request: {}".format(json.dumps(event)))
 
     for item in event["detail"]["additional-information"]["environment"][
