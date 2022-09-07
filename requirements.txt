@@ -8,3 +8,4 @@ aws-cdk.aws-events
 aws-cdk.aws-iam
 aws-cdk.core
 aws-cdk.aws_events_targets
+cdk-nag
