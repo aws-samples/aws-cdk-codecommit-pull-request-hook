@@ -27,8 +27,8 @@ class CICDPullRequestStack(core.Stack):
             self,
             "PullRequestPublishCodeBuildResult",
             function_name="PullRequestAutomation",
-            runtime=_lambda.Runtime.PYTHON_3_8,
-            code=_lambda.Code.asset("lambda_publish_build_result"),
+            runtime=_lambda.Runtime.PYTHON_3_9,
+            code=_lambda.Code.from_asset("lambda_publish_build_result"),
             handler="handler.lambda_handler",
         )
 
@@ -89,7 +89,8 @@ class CICDPullRequestStack(core.Stack):
                 self, f"{my_repo}_Repository", repository_name=my_repo
             )
             # grant permissions to put comments on Pull request.
-            my_repository.grant(lambda_publish_build_result, "codecommit:P*Comment*")
+            my_repository.grant(lambda_publish_build_result, "codecommit:PostCommentReply")
+            my_repository.grant(lambda_publish_build_result, "codecommit:PostCommentForPullRequest")
 
             project = codebuild.Project(
                 self,
